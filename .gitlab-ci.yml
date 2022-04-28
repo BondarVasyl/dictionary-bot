@@ -1,0 +1,40 @@
+stages:
+  - build
+  - deploy
+Build:
+  stage: build
+  variables:
+    GIT_STRATEGY: clone
+  script:
+      - mkdir -p .ssh
+      - echo "$DEPLOY_PRIVATE_KEY_DEV" | tr -d '\r'  > .ssh/id_rsa
+      - chmod 700 .ssh
+      - chmod 600 .ssh/id_rsa
+      - npm i
+      - npm run dev
+  artifacts:
+    paths:
+      - public/themes
+      - public/vendor
+      - public/ckeditor
+  only:
+    - dev
+  tags:
+    - node12
+Deploy:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: clone
+  script:
+    - php -v
+    - curl -LO https://deployer.org/releases/v6.6.0/deployer.phar
+    - mkdir -p .ssh
+    - echo "$DEPLOY_PRIVATE_KEY_DEV" | tr -d '\r'  > .ssh/id_rsa
+    - chmod 700 .ssh
+    - chmod 600 .ssh/id_rsa
+    - php deployer.phar deploy $CI_COMMIT_REF_NAME
+
+  only:
+    - dev
+  tags:
+    - shell

@@ -1,0 +1,11 @@
+{
+    "/themes/default/js/admin/app.min.js": "/themes/default/js/admin/app.min.js",
+    "/themes/default/css/admin/app.css": "/themes/default/css/admin/app.css",
+    "/themes/default/css/admin/style.css": "/themes/default/css/admin/style.css",
+    "/themes/default/css/admin/custom.css": "/themes/default/css/admin/custom.css",
+    "/themes/default/css/admin/adminltev3.css": "/themes/default/css/admin/adminltev3.css",
+    "/ckeditor/ckeditor.js": "/ckeditor/ckeditor.js",
+    "/ckeditor/config.js": "/ckeditor/config.js",
+    "/ckeditor/contents.css": "/ckeditor/contents.css",
+    "/ckeditor/styles.js": "/ckeditor/styles.js"
+}
