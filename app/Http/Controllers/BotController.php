@@ -22,8 +22,6 @@ class BotController extends Controller
 
         $this->botDriver->setLanguage(null, $update);
 
-//        Log::info(['update' => $update]);
-
         $this->botDriver->analyzeText($update);
 
         $this->botDriver->assignAction($update);

@@ -70,6 +70,7 @@ class BotDriver
                 try {
                     $synonyms = (new WordsAPIService())
                         ->getWordSynonyms($user->profile->last_requested_word);
+
                     $this->sendMessage($chat_id, $synonyms);
                 } catch (\Exception $e) {
                     if ($e->getCode() == '404') {
@@ -86,6 +87,7 @@ class BotDriver
                 try {
                     $antonyms = (new WordsAPIService())
                         ->getWordAntonyms($user->profile->last_requested_word);
+
                     $this->sendMessage($chat_id, $antonyms);
                 } catch (\Exception $e) {
                     if ($e->getCode() == '404') {
@@ -115,6 +117,57 @@ class BotDriver
                     }
 
                     Log::info(['error' => $e->getMessage()]);
+                }
+                break;
+            case __('bot_labels.pronunciation'):
+                try {
+                    $pronunciation = (new WordsAPIService())
+                        ->getWordPronunciation($user->profile->last_requested_word);
+
+                    $this->sendMessage($chat_id, $pronunciation);
+                } catch (\Exception $e) {
+                    if ($e->getCode() == '404') {
+                        $this->sendMessage($chat_id, __('bot_labels.pronunciation_not_found'));
+                    } else {
+                        $this->sendMessage(
+                            $chat_id,
+                            __('bot_labels.an_error_occurred_while_searching_for_a_pronunciation')
+                        );
+                    }
+                }
+                break;
+            case __('bot_labels.syllables') :
+                try {
+                    $syllables = (new WordsAPIService())
+                        ->getWordSyllables($user->profile->last_requested_word);
+
+                    $this->sendMessage($chat_id, $syllables);
+                } catch (\Exception $e) {
+                    if ($e->getCode() == '404') {
+                        $this->sendMessage($chat_id, __('bot_labels.syllables_not_found'));
+                    } else {
+                        $this->sendMessage(
+                            $chat_id,
+                            __('bot_labels.an_error_occurred_while_searching_for_syllables')
+                        );
+                    }
+                }
+                break;
+            case __('bot_labels.frequency'):
+                try {
+                    $frequency = (new WordsAPIService())
+                        ->getWordFrequency($user->profile->last_requested_word);
+
+                    $this->sendMessage($chat_id, $frequency);
+                } catch (\Exception $e) {
+                    if ($e->getCode() == '404') {
+                        $this->sendMessage($chat_id, __('bot_labels.frequency_not_found'));
+                    } else {
+                        $this->sendMessage(
+                            $chat_id,
+                            __('bot_labels.an_error_occurred_while_searching_for_frequency')
+                        );
+                    }
                 }
                 break;
             default:
