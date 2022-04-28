@@ -16,7 +16,6 @@ use Telegram\Bot\Objects\Update;
 class BotDriver
 {
     public $per_page = 25;
-
     public function analyzeText(Update $update)
     {
         $message = new MessageDriver($update);
