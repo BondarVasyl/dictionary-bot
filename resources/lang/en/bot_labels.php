@@ -58,5 +58,17 @@ return [
     'frequency_for_this_word_do_not_found'             => 'Frequency for this word do not found',
     'frequency_zipf'                                   => 'A score indicating how common the word is in the English language, with a range of 1 to 7',
     'frequency_perMillion'                             => 'The number of times the word is likely to appear in a corpus of one million English words',
-    'frequency_diversity'                              => 'A 0-1 scale the shows the likelyhood of the word appearing in an English document that is part of a corpus'
+    'frequency_diversity'                              => 'A 0-1 scale the shows the likelyhood of the word appearing in an English document that is part of a corpus',
+    'random_word_with_translation'                     => '🤔 Random word with translation',
+    'random_word_not_found'                            => 'Random word not found',
+    'an_error_occurred_while_searching_for_random_word' => 'An error occurred while searching for random word',
+    'add_to_dictionary'                                 => '✍️ Add to dictionary',
+    'delete_from_dictionary'                            => '❌ Delete from dictionary',
+    'an_error_occurred_while_adding_word_to_dictionary' => 'An error occurred while adding word to dictionary',
+    'word_has_been_successfully_added_to_the_dictionary' => 'Word has been successfully added to the dictionary',
+    'word_has_been_successfully_deleted_from_dictionary' => 'Word has been successfully deleted from dictionary',
+    'an_error_occurred_while_deleting_word_from_dictionary' => 'An error occurred while deleting word from dictionary',
+    'view_my_dictionary'                                    => '✍️ View my dictionary',
+    'no_words_yet'                                          => 'No words yet',
+    'my_words'                                              => 'My words'
 ];

@@ -4,6 +4,7 @@ namespace App\Api\v1\Drivers;
 
 use App\Api\v1\Services\TranslationService;
 use App\Api\v1\Services\WordsAPIService;
+use App\Models\Dictionary;
 use App\Models\Profile;
 use App\Models\RhymesPageInfo;
 use App\Models\User;
@@ -170,6 +171,111 @@ class BotDriver
                     }
                 }
                 break;
+            case __('bot_labels.random_word_with_translation') :
+                try {
+                      $random_word = (new WordsAPIService())
+                          ->getRandomWord();
+
+                      $translation = (new TranslationService())
+                          ->getWordTranslation(
+                              $random_word,
+                              $user->profile->language_from,
+                              $user->profile->language_to
+                          );
+
+                    $text = $translation['original_text']
+                        . ' => ' . $translation['translated_text'][$user->profile->language_to];
+
+                    $this->sendMessage($chat_id, $text);
+
+                    $user->profile()->update([
+                        'last_requested_word' => $random_word,
+                        'analyze_session_started' => false
+                    ]);
+
+                    $this->showAnalyzeKeyboard($chat_id);
+
+                } catch (\Exception $e) {
+                    if ($e->getCode() == '404') {
+                        $this->sendMessage($chat_id, __('bot_labels.random_word_not_found'));
+                    } else {
+                        $this->sendMessage($chat_id, $e->getMessage());
+                        $this->sendMessage(
+                            $chat_id,
+                            __('bot_labels.an_error_occurred_while_searching_for_random_word')
+                        );
+                    }
+                }
+                break;
+            case __('bot_labels.add_to_dictionary'):
+                try {
+                    Dictionary::firstOrCreate(
+                        [
+                            'user_id' => $user->id,
+                            'word'    => $user->profile->last_requested_word,
+                        ],
+                        [
+                            'translation' => (new TranslationService())
+                                ->getWordTranslation(
+                                    $user->profile->last_requested_word,
+                                    $user->profile->language_from,
+                                    $user->profile->language_to
+                                )['translated_text'][$user->profile->language_to]
+                        ]
+                    );
+
+                    $this->sendMessage(
+                        $chat_id,
+                        __('bot_labels.word_has_been_successfully_added_to_the_dictionary')
+                    );
+                } catch (\Exception $e) {
+                    $this->sendMessage($chat_id, $e->getMessage());
+                    $this->sendMessage(
+                        $chat_id,
+                        __('bot_labels.an_error_occurred_while_adding_word_to_dictionary')
+                    );
+                }
+                break;
+            case __('bot_labels.delete_from_dictionary'):
+                try {
+                    Dictionary::where('user_id', $user->id)
+                        ->where('word', $user->profile->last_requested_word)
+                        ->delete();
+
+                    $this->sendMessage(
+                        $chat_id,
+                        __('bot_labels.word_has_been_successfully_deleted_from_dictionary')
+                    );
+                } catch (\Exception $e) {
+                    $this->sendMessage($chat_id, $e->getMessage());
+                    $this->sendMessage(
+                        $chat_id,
+                        __('bot_labels.an_error_occurred_while_deleting_word_from_dictionary')
+                    );
+                }
+                break;
+            case __('bot_labels.view_my_dictionary'):
+                $words = $user->dictionary;
+
+                if (!$words) {
+                    $this->sendMessage(
+                        $chat_id,
+                        __('bot_labels.no_words_yet')
+                    );
+                }
+
+                $result_word_list = __('bot_labels.my_words') . ' : ' . PHP_EOL;
+
+                foreach ($words as $key => $item) {
+                    $result_word_list .= ($key + 1) .') ' . $item->word . ' => ' . $item->translation . ' ;' .PHP_EOL;
+                }
+
+                $this->sendMessage(
+                    $chat_id,
+                    $result_word_list
+                );
+
+                break;
             default:
                 if ($user->profile->analyze_session_started) {
                     $response = (new TranslationService())
@@ -275,6 +381,8 @@ class BotDriver
 
         $keyboard = [
             [__('bot_labels.analyze_word')],
+            [__('bot_labels.random_word_with_translation')],
+            [__('bot_labels.view_my_dictionary')],
             [__('bot_labels.change_bot_language') . '(' . country_flag(detect_locale(app()->getLocale())) . ')'],
             [
                 __('bot_labels.translate_from_language')
@@ -303,7 +411,9 @@ class BotDriver
             [__('bot_labels.definitions'), __('bot_labels.synonyms')],
             [__('bot_labels.antonyms'), __('bot_labels.rhymes')],
             [__('bot_labels.pronunciation'), __('bot_labels.syllables')],
-            [__('bot_labels.frequency'), __('bot_labels.close_analyze_keyboard')]
+            [__('bot_labels.frequency')],
+            [__('bot_labels.add_to_dictionary'), __('bot_labels.delete_from_dictionary')],
+            [__('bot_labels.close_analyze_keyboard')]
         ];
 
         $reply_markup = Keyboard::make([

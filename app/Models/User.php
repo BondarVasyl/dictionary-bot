@@ -39,6 +39,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Profile::class);
     }
 
+    public function dictionary(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Dictionary::class);
+    }
+
     public function scopeOfChatId($query, $chat_id)
     {
         return $query->where('telegram_id', $chat_id);

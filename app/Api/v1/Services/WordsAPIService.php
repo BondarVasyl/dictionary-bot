@@ -213,4 +213,19 @@ class WordsAPIService
 
         return $result_frequency;
     }
+
+    public function getRandomWord()
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->url . '/?random=true',
+            [
+                'headers' => $this->headers
+            ]
+        );
+
+        $random_word = json_decode($response->getBody(), true);
+
+        return $random_word['word'];
+    }
 }
