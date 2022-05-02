@@ -258,21 +258,10 @@ return [
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => ['website_translations'],
-                    'url'  => 'admin/translation/site_labels',
-                ],
-                [
                     'text' => ['admin_translations'],
                     'url'  => 'admin/translation/admin_labels',
                 ],
             ],
-        ],
-        [
-            'text'        => ['variables'],
-            'url'         => 'admin/variable',
-            'icon'        => 'far fa-copyright',
-            'active'      => ['admin/variable/*'],
-            'can'         => 'variable_access'
         ],
     ],
 

@@ -25,13 +25,12 @@ class UserController extends Controller
         $type = $request->get('type');
 
         if ($request->get('draw')) {
-            $list = User::with('roles')->whereHas('roles', function ($q) use ($type) {
-                if ($type == 'app') {
-                    $q->where('title', 'User');
-                } else {
-                    $q->where('title', '!=', 'User');
-                }
-            })->select(
+            $list = User::with('roles');
+            $list = $type == 'app'
+                ? $list->whereDoesntHave('roles')
+                : $list->whereHas('roles');
+
+            $list = $list->select(
                 [
                     'id',
                     'email',
@@ -172,32 +171,38 @@ class UserController extends Controller
 
     private function _datatable(Builder $list, $type)
     {
-            return DataTables::of($list)
-                ->filterColumn(
-                    'actions',
-                    function ($query, $keyword) {
-                        $query->whereRaw('users.id like ?', ['%' . $keyword . '%']);
-                    }
-                )
-                ->addColumn(
-                    'actions',
-                    function ($model) use ($type) {
-                        return view(
-                            'admin.view.' . $this->module . '.partials.control_buttons',
-                            ['model' => $model, 'type' => 'user', 'without_delete' => false, 'display_type' => $type]
-                        )->render();
-                    }
-                )
-                ->addColumn(
-                    'roles_id',
-                    function ($roles) {
-                        return view(
-                            'admin.view.' . $this->module . '.partials.roles',
-                            ['list' => $roles,'type' => 'user']
-                        )->render();
-                    }
-                )
-                ->rawColumns(['actions','roles_id'])
-                ->make();
+        return DataTables::of($list)
+            ->filterColumn(
+                'actions',
+                function ($query, $keyword) {
+                    $query->whereRaw('users.id like ?', ['%' . $keyword . '%']);
+                }
+            )
+            ->addColumn(
+                'actions',
+                function ($model) use ($type) {
+                    return view(
+                        'admin.view.' . $this->module . '.partials.control_buttons',
+                        ['model' => $model, 'type' => 'user', 'without_delete' => false, 'display_type' => $type]
+                    )->render();
+                }
+            )
+            ->addColumn(
+                'roles_id',
+                function ($roles) {
+                    return view(
+                        'admin.view.' . $this->module . '.partials.roles',
+                        ['list' => $roles, 'type' => 'user']
+                    )->render();
+                }
+            )
+            ->editColumn(
+                'email',
+                function ($model) {
+                    return $model->email ? $model->email : $model->profile->username;
+                }
+            )
+            ->rawColumns(['actions', 'roles_id'])
+            ->make();
     }
 }

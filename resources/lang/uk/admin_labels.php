@@ -257,5 +257,11 @@ return [
     'has_custom_certificate'   => 'Має нестандартний сертифікат',
     'pending_update_count'     => 'Кількість оновлень в очікуванні',
     'max_connections'          => 'Максимальна кількість підключень',
-    'ip_address'               => 'IP-адреса'
+    'ip_address'               => 'IP-адреса',
+    'telegram_id'              => 'Ідентифікатор Telegram',
+    'is_bot'                   => 'Є ботом',
+    'username'                 => 'Ім\'я користувача',
+    'language_code'            => 'Код мови',
+    'last_requested_word'      => 'Останнє запитане слово',
+    'dictionary'               => 'Словник'
 ];

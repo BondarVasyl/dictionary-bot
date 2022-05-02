@@ -68,7 +68,7 @@ return [
     'view_feedback'         => 'Просмотреть отзыв',
     'message'               => 'Сообщение',
     'admin_panel_users'     => 'Пользователи админ панели',
-    'app_users'             => 'Пользователи приложения',
+    'app_users'             => 'Пользователи бота',
     'last_name'             => 'Фамилия',
     'phone'                 => 'Телефон',
     'add_video_card'        => 'Добавить карточку видео',
@@ -105,5 +105,11 @@ return [
     'has_custom_certificate'   => 'Имеет нестандартный сертификат',
     'pending_update_count'     => 'Количество обновлений в ожидании',
     'max_connections'          => 'Максимальное количество подключений',
-    'ip_address'               => 'IP-адрес'
+    'ip_address'               => 'IP-адрес',
+    'telegram_id'              => 'Telegram идентификатор',
+    'is_bot'                   => 'Является ботом',
+    'username'                 => 'Имя пользователя',
+    'language_code'            => 'Код языка',
+    'last_requested_word'      => 'Последнее запрошенное слово',
+    'dictionary'               => 'Словарь'
 ];

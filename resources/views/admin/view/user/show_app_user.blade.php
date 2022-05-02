@@ -11,18 +11,18 @@
             <tbody>
                 <tr>
                     <th>
-                        {{__('admin_labels.name')}}
+                        {{__('admin_labels.telegram_id')}}
                     </th>
                     <td>
-                        {{ $user->profile->name }}
+                        {{ $user->telegram_id }}
                     </td>
                 </tr>
                 <tr>
                     <th>
-                        {{__('admin_labels.last_name')}}
+                        {{__('admin_labels.is_bot')}}
                     </th>
                     <td>
-                        {{ $user->profile->last_name }}
+                        {{ $user->is_bot ? __('admin_labels.yes') : __('admin_labels.no') }}
                     </td>
                 </tr>
                 <tr>
@@ -35,19 +35,52 @@
                 </tr>
                 <tr>
                     <th>
-                        {{__('admin_labels.phone')}}
+                        {{__('admin_labels.first_name')}}
                     </th>
                     <td>
-                        {{ $user->profile->phone }}
+                        {{ $user->profile->first_name }}
                     </td>
                 </tr>
                 <tr>
                     <th>
-                        {{__('admin_labels.roles')}}
+                        {{__('admin_labels.last_name')}}
                     </th>
                     <td>
-                        @foreach($user->roles as $id => $roles)
-                            <a href="{{route('admin.roles.edit', ['role' => $roles])}}">{{ $roles->title }}</a>
+                        {{ $user->profile->last_name }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{__('admin_labels.username')}}
+                    </th>
+                    <td>
+                        {{ $user->profile->username }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{__('admin_labels.language_code')}}
+                    </th>
+                    <td>
+                        {{ $user->profile->language_code }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{__('admin_labels.last_requested_word')}}
+                    </th>
+                    <td>
+                        {{ $user->profile->last_requested_word }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{__('admin_labels.dictionary')}}
+                    </th>
+                    <td>
+                        @foreach($user->dictionary as $item)
+                            {{$item->word . ' - ' . $item->translation}}
+                            <br>
                         @endforeach
                     </td>
                 </tr>

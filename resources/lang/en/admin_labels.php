@@ -77,5 +77,12 @@ return [
     'has_custom_certificate'   => 'Has a non-standard certificate',
     'pending_update_count'     => 'Number of updates pending',
     'max_connections'          => 'Maximum number of connections',
-    'ip_address'               => 'IP address'
+    'ip_address'               => 'IP address',
+    'app_users'                => 'Bot users',
+    'telegram_id'              => 'Telegram id',
+    'is_bot'                   => 'Is bot',
+    'username'                 => 'Username',
+    'language_code'            => 'Language code',
+    'last_requested_word'      => 'Last requested word',
+    'dictionary'               => 'Dictionary'
 ];
