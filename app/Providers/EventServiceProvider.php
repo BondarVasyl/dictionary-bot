@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
-use App\Api\v1\Events\NewUserPasswordRequested;
+use App\Http\Events\UserTrainingStartedEvent;
+use App\Http\Events\UserTrainingStopedEvent;
+use App\Http\Listeners\UserTrainingStartedListener;
+use App\Http\Listeners\UserTrainingStopedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,9 +21,11 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-
-        NewUserPasswordRequested::class => [
-            \App\Api\v1\Listeners\NewUserPasswordRequested::class
+        UserTrainingStartedEvent::class => [
+            UserTrainingStartedListener::class
+        ],
+        UserTrainingStopedEvent::class => [
+            UserTrainingStopedListener::class
         ]
     ];
 

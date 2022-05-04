@@ -16,7 +16,8 @@ class Profile extends Model
         'language_to',
         'last_requested_word',
         'analyze_session_started',
-        'type'
+        'type',
+        'training_state'
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

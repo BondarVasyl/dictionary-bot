@@ -4,6 +4,8 @@ namespace App\Api\v1\Drivers;
 
 use App\Api\v1\Services\TranslationService;
 use App\Api\v1\Services\WordsAPIService;
+use App\Http\Events\UserTrainingStartedEvent;
+use App\Http\Events\UserTrainingStopedEvent;
 use App\Models\Dictionary;
 use App\Models\Profile;
 use App\Models\RhymesPageInfo;
@@ -50,6 +52,28 @@ class BotDriver
                 RhymesPageInfo::where('chat_id', $user->telegram_id)->delete();
 
                 $this->showKeyboard($chat_id);
+                break;
+            case __('bot_labels.training_state_0'):
+
+                if (!$user->dictionary()->exists()) {
+                    $this->sendMessage($user->telegram_id, __('bot_labels.your_dictionary_is_empty'));
+
+                    return;
+                }
+
+                event(new UserTrainingStartedEvent($user));
+
+                $user->profile()->update(['training_state' => true]);
+
+                $this->showKeyboard($user->telegram_id, __('bot_labels.training_start_text'));
+                break;
+            case __('bot_labels.training_state_1'):
+
+                event(new UserTrainingStopedEvent($user));
+
+                $user->profile()->update(['training_state' => false]);
+
+                $this->showKeyboard($user->telegram_id, __('bot_labels.training_stop_text'));
                 break;
             case __('bot_labels.definitions'):
                 try {
@@ -382,7 +406,7 @@ class BotDriver
         $keyboard = [
             [__('bot_labels.analyze_word')],
             [__('bot_labels.random_word_with_translation')],
-            [__('bot_labels.view_my_dictionary')],
+            [__('bot_labels.view_my_dictionary'), __('bot_labels.training_state_' . $user->profile->training_state)],
             [__('bot_labels.change_bot_language') . '(' . country_flag(detect_locale(app()->getLocale())) . ')'],
             [
                 __('bot_labels.translate_from_language')

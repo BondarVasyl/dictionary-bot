@@ -70,5 +70,10 @@ return [
     'an_error_occurred_while_deleting_word_from_dictionary' => 'An error occurred while deleting word from dictionary',
     'view_my_dictionary'                                    => '✍️ View my dictionary',
     'no_words_yet'                                          => 'No words yet',
-    'my_words'                                              => 'My words'
+    'my_words'                                              => 'My words',
+    'training_state_1'                                      => '🏃‍Off training',
+    'training_state_0'                                      => '🏃On training',
+    'your_dictionary_is_empty'                              => 'Your dictionary is empty',
+    'training_start_text'                                   => 'You have started training. Every 5 minutes the bot will send you a word with a translation from your dictionary.',
+    'training_stop_text'                                    => 'You have completed your training'
 ];

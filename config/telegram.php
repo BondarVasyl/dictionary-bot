@@ -34,7 +34,7 @@ return [
     'bots'                         => [
         'mybot' => [
             'username'            => 'YourDictionary',
-            'token'               => env('TELEGRAM_BOT_TOKEN', '5066876638:AAH0hEaxoYo0uBGg_ho9H-AxaeVFpjZ7oW0'),
+            'token'               => env('TELEGRAM_BOT_TOKEN', '5066876638:AAFctg_AAgDMUO063N368bluK3eVAxODmS4'),
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [
