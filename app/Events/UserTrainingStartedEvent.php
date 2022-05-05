@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Events;
+namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;

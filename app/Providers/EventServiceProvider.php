@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Http\Events\UserTrainingStartedEvent;
-use App\Http\Events\UserTrainingStopedEvent;
-use App\Http\Listeners\UserTrainingStartedListener;
-use App\Http\Listeners\UserTrainingStopedListener;
+use App\Events\UserTrainingStartedEvent;
+use App\Events\UserTrainingStopedEvent;
+use App\Listeners\UserTrainingStartedListener;
+use App\Listeners\UserTrainingStopedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

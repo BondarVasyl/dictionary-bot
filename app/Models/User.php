@@ -44,6 +44,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Dictionary::class);
     }
 
+    public function wordSchedules(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(WordSchedule::class);
+    }
+
     public function scopeOfChatId($query, $chat_id)
     {
         return $query->where('telegram_id', $chat_id);

@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Http\Listeners;
+namespace App\Listeners;
 
-use App\Http\Events\UserTrainingStopedEvent;
+use App\Api\v1\Services\TrainingService;
+use App\Events\UserTrainingStopedEvent;
 
 class UserTrainingStopedListener
 {
+    private $trainingService;
+
+    public function __construct(TrainingService $trainingService)
+    {
+        $this->trainingService = $trainingService;
+    }
+
     public function handle(UserTrainingStopedEvent $event)
     {
-        //todo : finised all not sended word from list
+        $this->trainingService->stopTraining($event->user);
     }
 }

@@ -74,6 +74,7 @@ return [
     'training_state_1'                                      => '🏃‍Off training',
     'training_state_0'                                      => '🏃On training',
     'your_dictionary_is_empty'                              => 'Your dictionary is empty',
-    'training_start_text'                                   => 'You have started training. Every 5 minutes the bot will send you a word with a translation from your dictionary.',
-    'training_stop_text'                                    => 'You have completed your training'
+    'training_start_text'                                   => 'You have started training. Every minute the bot will send you a word with a translation from your dictionary.',
+    'training_stop_text'                                    => 'You have completed your training',
+    'it_was_the_last_one_good_job'                          => 'It was the last one, good job !'
 ];

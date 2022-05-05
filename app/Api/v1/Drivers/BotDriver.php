@@ -4,8 +4,8 @@ namespace App\Api\v1\Drivers;
 
 use App\Api\v1\Services\TranslationService;
 use App\Api\v1\Services\WordsAPIService;
-use App\Http\Events\UserTrainingStartedEvent;
-use App\Http\Events\UserTrainingStopedEvent;
+use App\Events\UserTrainingStartedEvent;
+use App\Events\UserTrainingStopedEvent;
 use App\Models\Dictionary;
 use App\Models\Profile;
 use App\Models\RhymesPageInfo;
