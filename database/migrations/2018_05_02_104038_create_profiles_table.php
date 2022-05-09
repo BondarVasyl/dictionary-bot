@@ -20,6 +20,7 @@ class CreateProfilesTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('username')->nullable();
             $table->boolean('training_state')->default(false);
+            $table->boolean('translation_training_state')->default(false);
             $table->string('language_code')->nullable();
             $table->string('language_from')->nullable();
             $table->string('language_to')->nullable();

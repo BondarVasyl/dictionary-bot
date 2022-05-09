@@ -76,5 +76,13 @@ return [
     'your_dictionary_is_empty'                              => 'Your dictionary is empty',
     'training_start_text'                                   => 'You have started training. Every minute the bot will send you a word with a translation from your dictionary.',
     'training_stop_text'                                    => 'You have completed your training',
-    'it_was_the_last_one_good_job'                          => 'It was the last one, good job !'
+    'it_was_the_last_one_good_job'                          => 'It was the last one, good job !',
+    'translation_training_state_0'                          => '📝Start translation training',
+    'translation_training_state_1'                          => '📝Stop translation training',
+    'translation_training_start_text'                       => 'You have started training with word with translations. Every minute the bot will send you a word from your dictionary and you may type translation for it.',
+    'translation_training_stop_text'                        => 'You have completed your training',
+    'great_wait_for_another_word'                           => 'Great! Wait for another word.',
+    'that_is_all'                                           => 'That is all !)',
+    'something_wrong_try_again'                             => 'Something wrong. Try again.',
+    'send_translation_of_this_word'                         => 'Send translation of this word :'
 ];

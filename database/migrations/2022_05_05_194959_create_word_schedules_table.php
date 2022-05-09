@@ -19,6 +19,7 @@ class CreateWordSchedulesTable extends Migration
             $table->foreignId('dictionary_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('date');
             $table->time('time');
+            $table->string('type');
             $table->boolean('status')->default(false);
             $table->timestamps();
         });

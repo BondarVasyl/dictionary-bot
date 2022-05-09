@@ -6,21 +6,21 @@ use App\Api\v1\Drivers\BotDriver;
 use App\Models\WordSchedule;
 use Carbon\Carbon;
 
-class SendUserWordCommand extends BaseCommand
+class SendUserTranslationWordCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user_words:send';
+    protected $signature = 'user_translation_words:send';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send to user words from schedule';
+    protected $description = 'Send to user words for translation training from schedule';
 
     private $botDriver;
 
@@ -38,13 +38,13 @@ class SendUserWordCommand extends BaseCommand
             ->where('date', Carbon::now()->format('Y-m-d'))
             ->where('time', Carbon::now()->format('H:i'))
             ->where('status', false)
-            ->where('type', WordSchedule::SIMPLE_TYPE)
+            ->where('type', WordSchedule::WORD_WITH_TRANSLATION_TYPE)
             ->get();
 
         foreach ($words_schedule as $word) {
-            $text = $word->dictionary->word . ' - '. $word->dictionary->translation;
+            $text = ('bot_labels.send_translation_of_this_word') . ' ' . $word->dictionary->word;
             $exist_next_word = WordSchedule::where('user_id', $word->user_id)
-                ->where('type', WordSchedule::SIMPLE_TYPE)
+                ->where('type', WordSchedule::WORD_WITH_TRANSLATION_TYPE)
                 ->where('status', false)->where('id', '!=', $word->id)->exists();
 
             if (!$exist_next_word) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class WordSchedule extends Model
@@ -11,8 +12,17 @@ class WordSchedule extends Model
         'dictionary_id',
         'date',
         'time',
+        'type',
         'status'
     ];
+
+    private $types = [
+        'simple',
+        'word_with_translation'
+    ];
+
+    public const SIMPLE_TYPE = 'simple';
+    public const WORD_WITH_TRANSLATION_TYPE = 'word_with_translation';
 
     public function dictionary(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -22,5 +32,15 @@ class WordSchedule extends Model
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeSimpleWords(Builder $builder): Builder
+    {
+        return $builder->where('type', 'simple');
+    }
+
+    public function scopeWordsWithTranslation(Builder $builder): Builder
+    {
+        return $builder->where('type', 'word_with_translation');
     }
 }

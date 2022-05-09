@@ -6,10 +6,13 @@ use App\Api\v1\Services\TranslationService;
 use App\Api\v1\Services\WordsAPIService;
 use App\Events\UserTrainingStartedEvent;
 use App\Events\UserTrainingStopedEvent;
+use App\Events\UserTranslationTrainingStartedEvent;
+use App\Events\UserTranslationTrainingStopedEvent;
 use App\Models\Dictionary;
 use App\Models\Profile;
 use App\Models\RhymesPageInfo;
 use App\Models\User;
+use App\Models\WordSchedule;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -74,6 +77,28 @@ class BotDriver
                 $user->profile()->update(['training_state' => false]);
 
                 $this->showKeyboard($user->telegram_id, __('bot_labels.training_stop_text'));
+                break;
+            case __('bot_labels.translation_training_state_0'):
+
+                if (!$user->dictionary()->exists()) {
+                    $this->sendMessage($user->telegram_id, __('bot_labels.your_dictionary_is_empty'));
+
+                    return;
+                }
+
+                event(new UserTranslationTrainingStartedEvent($user));
+
+                $user->profile()->update(['translation_training_state' => true]);
+
+                $this->showKeyboard($user->telegram_id, __('bot_labels.translation_training_start_text'));
+                break;
+            case __('bot_labels.translation_training_state_1'):
+
+                event(new UserTranslationTrainingStopedEvent($user));
+
+                $user->profile()->update(['translation_training_state' => false]);
+
+                $this->showKeyboard($user->telegram_id, __('bot_labels.translation_training_stop_text'));
                 break;
             case __('bot_labels.definitions'):
                 try {
@@ -321,6 +346,38 @@ class BotDriver
 
                     $this->showAnalyzeKeyboard($chat_id);
                 }
+                if ($user->profile->translation_training_state) {
+                    $last_sent_word = WordSchedule::where('user_id', $user->id)
+                    ->where('type', WordSchedule::WORD_WITH_TRANSLATION_TYPE)
+                    ->where('status', true)
+                    ->orderByDesc('updated_at')
+                    ->first();
+
+                    if ($message->getText() == $last_sent_word->dictionary->translation) {
+                        if (WordSchedule::where('user_id', $user->id)
+                            ->where('type', WordSchedule::WORD_WITH_TRANSLATION_TYPE)
+                            ->where('status', false)
+                            ->exists()) {
+
+                            $this->sendMessage(
+                                $chat_id,
+                                __('bot_labels.great_wait_for_another_word')
+                            );
+                        } else {
+
+                            $this->sendMessage(
+                                $chat_id,
+                                __('bot_labels.that_is_all')
+                            );
+                        }
+
+                    } else {
+                        $this->sendMessage(
+                            $chat_id,
+                            __('bot_labels.something_wrong_try_again')
+                        );
+                    }
+                }
 
                 break;
         }
@@ -406,7 +463,8 @@ class BotDriver
         $keyboard = [
             [__('bot_labels.analyze_word')],
             [__('bot_labels.random_word_with_translation')],
-            [__('bot_labels.view_my_dictionary'), __('bot_labels.training_state_' . $user->profile->training_state)],
+            [__('bot_labels.translation_training_state_' . $user->profile->translation_training_state), __('bot_labels.training_state_' . $user->profile->training_state)],
+            [__('bot_labels.view_my_dictionary')],
             [__('bot_labels.change_bot_language') . '(' . country_flag(detect_locale(app()->getLocale())) . ')'],
             [
                 __('bot_labels.translate_from_language')
