@@ -42,7 +42,7 @@ class SendUserTranslationWordCommand extends BaseCommand
             ->get();
 
         foreach ($words_schedule as $word) {
-            $text = ('bot_labels.send_translation_of_this_word') . ' ' . $word->dictionary->word;
+            $text = __('bot_labels.send_translation_of_this_word') . ' ' . $word->dictionary->word;
             $exist_next_word = WordSchedule::where('user_id', $word->user_id)
                 ->where('type', WordSchedule::WORD_WITH_TRANSLATION_TYPE)
                 ->where('status', false)->where('id', '!=', $word->id)->exists();
