@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\ActionHandlers;
 
 use App\Api\v1\Drivers\BotDriver;
 use App\Api\v1\Drivers\MessageDriver;
 use App\Models\Profile;
-use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Objects\Update;
 
 class ChangeLanguageFrom

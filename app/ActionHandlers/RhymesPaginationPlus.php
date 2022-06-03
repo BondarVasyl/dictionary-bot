@@ -7,7 +7,6 @@ use App\Api\v1\Drivers\BotDriver;
 use App\Api\v1\Drivers\MessageDriver;
 use App\Api\v1\Services\WordsAPIService;
 use App\Models\RhymesPageInfo;
-use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Objects\Update;
 

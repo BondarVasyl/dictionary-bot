@@ -3,7 +3,6 @@
 namespace App\Api\v1\Services;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Log;
 
 class WordsAPIService
 {
@@ -179,10 +178,6 @@ class WordsAPIService
 
         return $result_syllables;
     }
-
-    //Returns zipf, ;
-    //perMillion, ;
-    //and diversity, .
 
     public function getWordFrequency($word)
     {
